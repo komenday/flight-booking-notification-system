@@ -35,7 +35,7 @@ A lightweight notification microservice for processing flight reservation events
 - **Retry Logic** - Automatic retry for failed email sends
 
 ### Supported Events
-- ✉️ **Reservation Created** - Welcome email with 15-minute expiration warning
+- ✉️ **Reservation Created** - Welcome email with 10-minute expiration warning
 - ✅ **Reservation Confirmed** - Payment confirmation email
 - ❌ **Reservation Cancelled** - Cancellation confirmation
 - ⏰ **Reservation Expired** - Expiration notification
