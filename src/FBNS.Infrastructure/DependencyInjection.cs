@@ -34,8 +34,8 @@ public static class DependencyInjection
             client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
             client.Timeout = TimeSpan.FromSeconds(30);
         })
-        .AddPolicyHandler(GetRetryPolicy())
-        .AddPolicyHandler(GetCircuitBreakerPolicy());
+        .AddPolicyHandler(GetCircuitBreakerPolicy())
+        .AddPolicyHandler(GetRetryPolicy());
 
         services.AddScoped<IEmailService>(serviceProvider =>
             serviceProvider.GetRequiredService<MailtrapApiEmailService>());
@@ -47,25 +47,25 @@ public static class DependencyInjection
         return services;
     }
 
+    private static AsyncCircuitBreakerPolicy<HttpResponseMessage> GetCircuitBreakerPolicy()
+    {
+        return HttpPolicyExtensions
+            .HandleTransientHttpError()
+            .AdvancedCircuitBreakerAsync(
+                failureThreshold: 0.5,
+                samplingDuration: TimeSpan.FromSeconds(60),
+                minimumThroughput: 3,                   
+                durationOfBreak: TimeSpan.FromSeconds(5)
+            );
+    }
+
     private static AsyncRetryPolicy<HttpResponseMessage> GetRetryPolicy()
     {
         return HttpPolicyExtensions
             .HandleTransientHttpError()
             .WaitAndRetryAsync(
                 retryCount: 3,
-                sleepDurationProvider: attempt => TimeSpan.FromSeconds(Math.Pow(2, attempt)),
-                onRetry: (outcome, timespan, retryCount, context) =>
-                {
-                    // Logging handled in service
-                });
-    }
-
-    private static AsyncCircuitBreakerPolicy<HttpResponseMessage> GetCircuitBreakerPolicy()
-    {
-        return HttpPolicyExtensions
-            .HandleTransientHttpError()
-            .CircuitBreakerAsync(
-                handledEventsAllowedBeforeBreaking: 5,
-                durationOfBreak: TimeSpan.FromSeconds(30));
+                sleepDurationProvider: attempt => TimeSpan.FromSeconds(Math.Pow(2, attempt))
+            );
     }
 }
