@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="src/FBNS.API/FBNS.API.csproj" />
+  <Project Path="src/FBNS.Application/FBNS.Application.csproj" />
+  <Project Path="src/FBNS.Infrastructure/FBNS.Infrastructure.csproj" />
+</Solution>
