@@ -2,7 +2,7 @@
 
 A lightweight notification microservice for processing flight reservation events and sending transactional emails. Designed to work seamlessly with FBS (Flight Booking System) through webhook-based event delivery.
 
-[![.NET](https://img.shields.io/badge/.NET-8.0-blue)](https://dotnet.microsoft.com/)
+[![.NET](https://img.shields.io/badge/.NET-10.0-blue)](https://dotnet.microsoft.com/)
 [![Architecture](https://img.shields.io/badge/Architecture-Microservice-green)](https://microservices.io/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
@@ -111,7 +111,7 @@ A lightweight notification microservice for processing flight reservation events
 
 ### Core Stack
 - **.NET 10.0** - Latest LTS framework
-- **ASP.NET Core 8.0** - Web API framework
+- **ASP.NET Core 10.0** - Web API framework
 - **Serilog** - Structured logging
 
 ### Email Providers (Choose One)
@@ -573,11 +573,11 @@ tail -f logs/notifications.log
 
 **Dockerfile:**
 ```dockerfile
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS base
 WORKDIR /app
 EXPOSE 80
 
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 COPY ["src/FBNS.API/FBNS.API.csproj", "FBNS.API/"]
 RUN dotnet restore "FBNS.API/FBNS.API.csproj"
@@ -609,7 +609,7 @@ docker run -d -p 5002:80 \
 az webapp up \
   --name fbns-app \
   --resource-group your-rg \
-  --runtime "DOTNETCORE:8.0"
+  --runtime "DOTNETCORE:10.0"
 ```
 
 ### Environment Variables
